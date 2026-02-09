@@ -5,23 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 苗場滑雪 + 東京 WBC 之旅</title>
     
-    <!-- 1. 載入 React 核心 -->
+    <!-- 1. 載入 React 核心 (使用穩定的 UMD 版本) -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     
-    <!-- 2. 載入 Babel (讓瀏覽器看得懂 JSX) -->
+    <!-- 2. 載入 Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- 3. 載入 Tailwind CSS (樣式) -->
+    <!-- 3. 載入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 4. 載入 Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- 4. 錯誤攔截器 (Debug Mode) -->
+    <script>
+        window.onerror = function(msg, url, line, col, error) {
+            var debugDiv = document.getElementById('debug-console');
+            if (!debugDiv) {
+                debugDiv = document.createElement('div');
+                debugDiv.id = 'debug-console';
+                debugDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:red;color:white;padding:20px;z-index:9999;font-size:14px;white-space:pre-wrap;';
+                document.body.appendChild(debugDiv);
+            }
+            debugDiv.innerHTML += '🔴 Error: ' + msg + '\nLine: ' + line + '\n\n';
+            return false;
+        };
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; background-color: #f9fafb; -webkit-font-smoothing: antialiased; }
-        /* 隱藏滾動條但保持功能 */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -29,118 +40,50 @@
 <body>
     <div id="root"></div>
 
-    <!-- 這裡開始是 React 程式碼 -->
     <script type="text/babel">
         const { useState, useEffect } = React;
-        const { 
-            Plane, MapPin, Calendar, Users, Home, 
-            Snowflake, Ticket, Utensils, Train, 
-            Clock, ChevronDown, ChevronUp, AlertCircle, 
-            ShoppingBag, Trophy 
-        } = lucide;
+
+        // --- 內建圖示組件 (解決 CDN 依賴問題) ---
+        // 這是最穩定的做法，雖然代碼長一點，但保證不會壞
+        const Icons = {
+            Plane: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12h20"/><path d="M13 2l3.5 10h-3.5"/><path d="M13 22l3.5-10h-3.5"/></svg>,
+            MapPin: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+            Calendar: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>,
+            Users: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+            Home: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+            Snowflake: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 20-4-4"/><path d="m4 4 4 4"/><path d="m4 20 4-4"/><path d="m20 4-4 4"/></svg>,
+            Ticket: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>,
+            Utensils: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>,
+            Train: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m18 22-2-3"/><circle cx="8" cy="15" r="1"/><circle cx="16" cy="15" r="1"/></svg>,
+            ChevronDown: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>,
+            ChevronUp: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m18 15-6-6-6 6"/></svg>,
+            AlertCircle: () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>,
+            ShoppingBag: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>,
+            Trophy: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+        };
 
         // --- Data ---
-
         const members = ["Cody", "子瑜", "小芳", "Jerry", "EJ", "Wei"];
-
         const flights = [
-            {
-                group: "Cody, 子瑜",
-                type: "成田進出",
-                outbound: { date: "2/27", flight: "CX450", time: "12:50 TPE - 16:50 NRT" },
-                inbound: { date: "3/8", flight: "CX451", time: "15:20 NRT - 18:40 TPE" }
-            },
-            {
-                group: "Jerry, 小芳",
-                type: "成田進 / 羽田出",
-                outbound: { date: "2/27", flight: "BR196", time: "15:20 TPE - 19:20 NRT" },
-                inbound: { date: "3/8", flight: "BR189", time: "10:50 HND - 13:25 TSA" }
-            }
+            { group: "Cody, 子瑜", type: "成田進出", outbound: { date: "2/27", flight: "CX450", time: "12:50 TPE - 16:50 NRT" }, inbound: { date: "3/8", flight: "CX451", time: "15:20 NRT - 18:40 TPE" } },
+            { group: "Jerry, 小芳", type: "成田進 / 羽田出", outbound: { date: "2/27", flight: "BR196", time: "15:20 TPE - 19:20 NRT" }, inbound: { date: "3/8", flight: "BR189", time: "10:50 HND - 13:25 TSA" } }
         ];
-
         const accommodations = [
             { date: "2/27 (1晚)", name: "上野東金屋飯店", location: "上野", note: "方便隔天搭新幹線" },
             { date: "2/28-3/4 (4晚)", name: "苗場王子飯店", location: "苗場", note: "滑雪直達 / 夜滑" },
             { date: "3/4-3/8 (4晚)", name: "龜戶 Airbnb", location: "龜戶", note: "16:00 In / 10:00 Out" }
         ];
-
         const itineraryData = [
-            {
-                date: "2/27", day: "五", title: "抵達東京", icon: Plane,
-                events: [
-                    { time: "16:50", title: "Cody組 抵達成田", desc: "CX450 -> 上野 Check-in", tag: "Cody/子瑜" },
-                    { time: "19:20", title: "Jerry組 抵達成田", desc: "BR196 -> Skyliner (20:10) -> 上野 (21:00)", tag: "Jerry/小芳" },
-                    { time: "22:00", title: "晚餐：鴨to蔥", desc: "上野御徒町名店", icon: Utensils }
-                ]
-            },
-            {
-                date: "2/28", day: "六", title: "移動日 (提早一班車)", icon: Train,
-                events: [
-                    { time: "10:00", title: "退房 & 寄放行李", desc: "稍微提早退房，準備採買" },
-                    { time: "10:15", title: "吉池 (Yoshiike) 採買", desc: "買草莓、零食帶去雪場", icon: ShoppingBag },
-                    { time: "11:00", title: "午餐：Negishi 牛舌", desc: "開店即入座，預留時間搭車", icon: Utensils },
-                    { time: "12:46", title: "新幹線 Toki 321", desc: "上野 -> 越後湯澤 (13:56 抵達)\n*提早一班車", highlight: true },
-                    { time: "14:15", title: "搭乘飯店接駁車", desc: "越後湯澤東口 (⚠️ 需預約)", isWarning: true },
-                    { time: "15:00", title: "苗場 Check-in", desc: "王子飯店 (提早抵達休息)" },
-                    { time: "15:30", title: "租賃雪具", desc: "飯店內 Rental Shop 試穿裝備\n(雪鞋/雪板/安全帽)", icon: Ticket },
-                    { time: "16:30", title: "夜滑 (Nighter)", desc: "裝備確認完畢，熱身開滑！", icon: Snowflake }
-                ]
-            },
-            {
-                date: "3/1", day: "日", title: "滑雪日 Day 1", icon: Snowflake,
-                events: [{ time: "全日", title: "全日滑雪", desc: "享受粉雪吧！", icon: Snowflake }]
-            },
-            {
-                date: "3/2", day: "一", title: "滑雪日 Day 2", icon: Snowflake,
-                events: [{ time: "全日", title: "全日滑雪", desc: "繼續練習，挑戰新雪道", icon: Snowflake }]
-            },
-            {
-                date: "3/3", day: "二", title: "滑雪日 Day 3", icon: Snowflake,
-                events: [{ time: "全日", title: "全日滑雪", desc: "最後一天滑好滑滿", icon: Snowflake }]
-            },
-            {
-                date: "3/4", day: "三", title: "返回東京 & 採買", icon: ShoppingBag,
-                events: [
-                    { time: "早上", title: "退房 -> 移動回東京", desc: "越後湯澤 -> 上野/東京" },
-                    { time: "下午", title: "御茶之水買雪具", desc: "FUSO / Victoria", icon: ShoppingBag },
-                    { time: "16:00", title: "龜戶 Airbnb Check-in", desc: "放置行李、休息", icon: Home }
-                ]
-            },
-            {
-                date: "3/5", day: "四", title: "WBC 球賽 & teamLab", icon: Trophy,
-                events: [
-                    { time: "11:00", title: "WBC: vs 澳洲", desc: "⚾ 全員6人進場 (午餐在球場解決)", highlight: true },
-                    { time: "16:00", title: "teamLab", desc: "Planets 或 Borderless", icon: MapPin },
-                    { time: "晚餐", title: "龜戶周邊", desc: "燒肉或餃子 (待定)", icon: Utensils }
-                ]
-            },
-            {
-                date: "3/6", day: "五", title: "淺草觀光 & 分流", icon: MapPin,
-                events: [
-                    { time: "10:45", title: "淺草今半 (排隊)", desc: "頂級壽喜燒", icon: Utensils },
-                    { time: "下午", title: "淺草寺 / 雷門 / 晴空塔", desc: "觀光客行程" },
-                    { time: "17:00", title: "分流行動", isSplit: true, 
-                        groupA: { title: "Cody, 子瑜", desc: "⚾ 東京巨蛋 (18:00 vs 日本)" },
-                        groupB: { title: "Jerry, 小芳, EJ, Wei", desc: "🛍️ 晴空塔/錦糸町逛街" }
-                    }
-                ]
-            },
-            {
-                date: "3/7", day: "六", title: "吉卜力 & WBC", icon: Ticket,
-                events: [
-                    { time: "11:00", title: "WBC: vs 捷克", desc: "⚾ 觀眾: EJ, Wei", tag: "EJ/Wei" },
-                    { time: "10:00", title: "吉卜力美術館", desc: "⚠️ 2/10 記得搶票！\n成員: Jerry, 小芳, Cody, 子瑜", tag: "其他4人", isWarning: true },
-                    { time: "12:30", title: "吉祥寺 午餐 & 逛街", desc: "吉卜力組行程" },
-                    { time: "16:00", title: "全員會合 & 慶功宴", desc: "地點：吉祥寺或新宿", icon: Utensils }
-                ]
-            },
-            {
-                date: "3/8", day: "日", title: "回程", icon: Plane,
-                events: [
-                    { time: "07:30", title: "Jerry組 出發", desc: "前往羽田機場 (10:50 BR189)", tag: "Jerry/小芳" },
-                    { time: "13:00", title: "Cody組 出發", desc: "前往成田機場 (15:20 CX451)", tag: "Cody/子瑜" }
-                ]
-            }
+            { date: "2/27", day: "五", title: "抵達東京", icon: Icons.Plane, events: [{ time: "16:50", title: "Cody組 抵達成田", desc: "CX450 -> 上野 Check-in", tag: "Cody/子瑜" }, { time: "19:20", title: "Jerry組 抵達成田", desc: "BR196 -> Skyliner (20:10) -> 上野 (21:00)", tag: "Jerry/小芳" }, { time: "22:00", title: "晚餐：鴨to蔥", desc: "上野御徒町名店", icon: Icons.Utensils }] },
+            { date: "2/28", day: "六", title: "移動日 (提早一班車)", icon: Icons.Train, events: [{ time: "10:00", title: "退房 & 寄放行李", desc: "稍微提早退房，準備採買" }, { time: "10:15", title: "吉池 (Yoshiike) 採買", desc: "買草莓、零食帶去雪場", icon: Icons.ShoppingBag }, { time: "11:00", title: "午餐：Negishi 牛舌", desc: "開店即入座，預留時間搭車", icon: Icons.Utensils }, { time: "12:46", title: "新幹線 Toki 321", desc: "上野 -> 越後湯澤 (13:56 抵達)\n*提早一班車", highlight: true }, { time: "14:15", title: "搭乘飯店接駁車", desc: "越後湯澤東口 (⚠️ 需預約)", isWarning: true }, { time: "15:00", title: "苗場 Check-in", desc: "王子飯店 (提早抵達休息)" }, { time: "15:30", title: "租賃雪具", desc: "飯店內 Rental Shop 試穿裝備\n(雪鞋/雪板/安全帽)", icon: Icons.Ticket }, { time: "16:30", title: "夜滑 (Nighter)", desc: "裝備確認完畢，熱身開滑！", icon: Icons.Snowflake }] },
+            { date: "3/1", day: "日", title: "滑雪日 Day 1", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "享受粉雪吧！", icon: Icons.Snowflake }] },
+            { date: "3/2", day: "一", title: "滑雪日 Day 2", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "繼續練習，挑戰新雪道", icon: Icons.Snowflake }] },
+            { date: "3/3", day: "二", title: "滑雪日 Day 3", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "最後一天滑好滑滿", icon: Icons.Snowflake }] },
+            { date: "3/4", day: "三", title: "返回東京 & 採買", icon: Icons.ShoppingBag, events: [{ time: "早上", title: "退房 -> 移動回東京", desc: "越後湯澤 -> 上野/東京" }, { time: "下午", title: "御茶之水買雪具", desc: "FUSO / Victoria", icon: Icons.ShoppingBag }, { time: "16:00", title: "龜戶 Airbnb Check-in", desc: "放置行李、休息", icon: Icons.Home }] },
+            { date: "3/5", day: "四", title: "WBC 球賽 & teamLab", icon: Icons.Trophy, events: [{ time: "11:00", title: "WBC: vs 澳洲", desc: "⚾ 全員6人進場 (午餐在球場解決)", highlight: true }, { time: "16:00", title: "teamLab", desc: "Planets 或 Borderless", icon: Icons.MapPin }, { time: "晚餐", title: "龜戶周邊", desc: "燒肉或餃子 (待定)", icon: Icons.Utensils }] },
+            { date: "3/6", day: "五", title: "淺草觀光 & 分流", icon: Icons.MapPin, events: [{ time: "10:45", title: "淺草今半 (排隊)", desc: "頂級壽喜燒", icon: Icons.Utensils }, { time: "下午", title: "淺草寺 / 雷門 / 晴空塔", desc: "觀光客行程" }, { time: "17:00", title: "分流行動", isSplit: true, groupA: { title: "Cody, 子瑜", desc: "⚾ 東京巨蛋 (18:00 vs 日本)" }, groupB: { title: "Jerry, 小芳, EJ, Wei", desc: "🛍️ 晴空塔/錦糸町逛街" } }] },
+            { date: "3/7", day: "六", title: "吉卜力 & WBC", icon: Icons.Ticket, events: [{ time: "11:00", title: "WBC: vs 捷克", desc: "⚾ 觀眾: EJ, Wei", tag: "EJ/Wei" }, { time: "10:00", title: "吉卜力美術館", desc: "⚠️ 2/10 記得搶票！\n成員: Jerry, 小芳, Cody, 子瑜", tag: "其他4人", isWarning: true }, { time: "12:30", title: "吉祥寺 午餐 & 逛街", desc: "吉卜力組行程" }, { time: "16:00", title: "全員會合 & 慶功宴", desc: "地點：吉祥寺或新宿", icon: Icons.Utensils }] },
+            { date: "3/8", day: "日", title: "回程", icon: Icons.Plane, events: [{ time: "07:30", title: "Jerry組 出發", desc: "前往羽田機場 (10:50 BR189)", tag: "Jerry/小芳" }, { time: "13:00", title: "Cody組 出發", desc: "前往成田機場 (15:20 CX451)", tag: "Cody/子瑜" }] }
         ];
 
         // --- Components ---
@@ -148,16 +91,11 @@
         const Countdown = () => {
             const targetDate = new Date("2026-02-27T00:00:00").getTime();
             const [timeLeft, setTimeLeft] = useState(targetDate - new Date().getTime());
-
             useEffect(() => {
-                const timer = setInterval(() => {
-                    setTimeLeft(targetDate - new Date().getTime());
-                }, 1000);
+                const timer = setInterval(() => { setTimeLeft(targetDate - new Date().getTime()); }, 1000);
                 return () => clearInterval(timer);
             }, []);
-
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            
             return (
                 <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 rounded-2xl shadow-lg mb-6 text-center transform transition hover:scale-[1.01]">
                     <div className="text-sm opacity-90 mb-1">距離 2026 苗場滑雪之旅還有</div>
@@ -165,7 +103,7 @@
                         {days > 0 ? days : 0} <span className="text-lg font-normal">天</span>
                     </div>
                     <div className="mt-2 flex justify-center gap-2 text-xs bg-white/20 py-1 px-3 rounded-full w-fit mx-auto">
-                        <Snowflake size={14} /> 準備好滑雪了嗎？
+                        <Icons.Snowflake /> <span className="ml-1">準備好滑雪了嗎？</span>
                     </div>
                 </div>
             );
@@ -174,37 +112,27 @@
         const FlightCard = ({ data }) => (
             <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
                 <div className="flex items-center gap-2 mb-3">
-                    <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">
-                        {data.type}
-                    </span>
+                    <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">{data.type}</span>
                     <span className="text-sm font-semibold text-gray-700">{data.group}</span>
                 </div>
                 <div className="space-y-3">
                     <div className="flex items-start gap-3">
                         <div className="bg-gray-100 p-1.5 rounded text-gray-500 mt-0.5">去</div>
-                        <div>
-                            <div className="font-bold text-gray-800">{data.outbound.flight}</div>
-                            <div className="text-sm text-gray-600">{data.outbound.date} {data.outbound.time}</div>
-                        </div>
+                        <div><div className="font-bold text-gray-800">{data.outbound.flight}</div><div className="text-sm text-gray-600">{data.outbound.date} {data.outbound.time}</div></div>
                     </div>
                     <div className="flex items-start gap-3">
                         <div className="bg-gray-100 p-1.5 rounded text-gray-500 mt-0.5">回</div>
-                        <div>
-                            <div className="font-bold text-gray-800">{data.inbound.flight}</div>
-                            <div className="text-sm text-gray-600">{data.inbound.date} {data.inbound.time}</div>
-                        </div>
+                        <div><div className="font-bold text-gray-800">{data.inbound.flight}</div><div className="text-sm text-gray-600">{data.inbound.date} {data.inbound.time}</div></div>
                     </div>
                 </div>
             </div>
         );
 
         const DayCard = ({ data, isOpen, onToggle }) => {
+            const Icon = data.icon;
             return (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-4 transition-all">
-                    <div 
-                        onClick={onToggle}
-                        className={`p-4 flex items-center justify-between cursor-pointer ${isOpen ? 'bg-blue-50' : 'bg-white'}`}
-                    >
+                    <div onClick={onToggle} className={`p-4 flex items-center justify-between cursor-pointer ${isOpen ? 'bg-blue-50' : 'bg-white'}`}>
                         <div className="flex items-center gap-3">
                             <div className={`flex flex-col items-center justify-center w-12 h-12 rounded-lg ${isOpen ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'}`}>
                                 <span className="text-xs font-bold">{data.date}</span>
@@ -212,29 +140,26 @@
                             </div>
                             <div>
                                 <h3 className="font-bold text-gray-800">{data.title}</h3>
-                                <div className="text-xs text-gray-500 flex items-center gap-1">
-                                    {data.events.length} 個行程
-                                </div>
+                                <div className="text-xs text-gray-500 flex items-center gap-1">{data.events.length} 個行程</div>
                             </div>
                         </div>
-                        {isOpen ? <ChevronUp size={20} className="text-blue-600" /> : <ChevronDown size={20} className="text-gray-400" />}
+                        {isOpen ? <Icons.ChevronUp /> : <Icons.ChevronDown />}
                     </div>
-
                     {isOpen && (
                         <div className="p-4 border-t border-gray-100 space-y-6">
-                            {data.events.map((event, idx) => (
+                            {data.events.map((event, idx) => {
+                                const EventIcon = event.icon;
+                                return (
                                 <div key={idx} className="relative pl-6 border-l-2 border-gray-200 last:border-0 pb-1">
                                     <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 border-white ${event.highlight ? 'bg-red-500' : 'bg-blue-400'}`}></div>
-                                    
                                     <div className="flex justify-between items-start">
-                                        <span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded mb-1 inline-block">
-                                            {event.time}
-                                        </span>
+                                        <span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded mb-1 inline-block">{event.time}</span>
                                         {event.tag && <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">{event.tag}</span>}
                                     </div>
-
-                                    <h4 className="font-bold text-gray-800 text-lg leading-tight mb-1">{event.title}</h4>
-                                    
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <h4 className="font-bold text-gray-800 text-lg leading-tight">{event.title}</h4>
+                                        {EventIcon && <span className="text-gray-400"><EventIcon /></span>}
+                                    </div>
                                     {event.isSplit ? (
                                         <div className="mt-3 grid grid-cols-1 gap-2">
                                             <div className="bg-red-50 p-3 rounded-lg border border-red-100">
@@ -249,19 +174,15 @@
                                             </div>
                                         </div>
                                     ) : (
-                                        <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
-                                            {event.desc}
-                                        </p>
+                                        <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">{event.desc}</p>
                                     )}
-
                                     {event.isWarning && (
                                         <div className="mt-2 flex items-center gap-2 text-amber-600 text-sm bg-amber-50 p-2 rounded">
-                                            <AlertCircle size={16} />
-                                            <span className="font-medium">重要提醒</span>
+                                            <Icons.AlertCircle /> <span className="font-medium">重要提醒</span>
                                         </div>
                                     )}
                                 </div>
-                            ))}
+                            )})}
                         </div>
                     )}
                 </div>
@@ -270,19 +191,17 @@
 
         const App = () => {
             const [activeTab, setActiveTab] = useState('schedule');
-            const [openDay, setOpenDay] = useState(1); // 預設展開 2/28
+            const [openDay, setOpenDay] = useState(1);
 
             return (
                 <div className="max-w-md mx-auto min-h-screen bg-gray-50 pb-24 font-sans text-gray-900">
-                    {/* Header */}
                     <div className="bg-white p-5 sticky top-0 z-10 shadow-sm border-b border-gray-100">
                         <div className="flex justify-between items-center mb-1">
                             <h1 className="text-xl font-bold text-gray-900 tracking-tight">東京 WBC + 滑雪之旅</h1>
                             <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded">2026</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-500">
-                            <Users size={14} />
-                            <span>{members.length} 人：{members.join(", ")}</span>
+                            <Icons.Users /> <span>{members.length} 人：{members.join(", ")}</span>
                         </div>
                     </div>
 
@@ -292,81 +211,46 @@
                                 <Countdown />
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="font-bold text-gray-700 flex items-center gap-2">
-                                        <Calendar size={18} /> 詳細行程
+                                        <Icons.Calendar /> 詳細行程
                                     </h2>
-                                    <button 
-                                        onClick={() => setOpenDay(openDay === null ? 0 : null)} 
-                                        className="text-xs text-blue-600 font-medium"
-                                    >
-                                        {openDay === null ? "展開第一天" : "收合全部"}
-                                    </button>
+                                    <button onClick={() => setOpenDay(openDay === null ? 0 : null)} className="text-xs text-blue-600 font-medium">{openDay === null ? "展開第一天" : "收合全部"}</button>
                                 </div>
                                 <div className="space-y-4">
                                     {itineraryData.map((day, idx) => (
-                                        <DayCard 
-                                            key={idx} 
-                                            data={day} 
-                                            isOpen={openDay === idx} 
-                                            onToggle={() => setOpenDay(openDay === idx ? null : idx)} 
-                                        />
+                                        <DayCard key={idx} data={day} isOpen={openDay === idx} onToggle={() => setOpenDay(openDay === idx ? null : idx)} />
                                     ))}
                                 </div>
                             </>
                         )}
-
                         {activeTab === 'info' && (
                             <div className="space-y-6">
                                 <section>
-                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                        <Plane size={18} className="text-blue-500" /> 航班資訊
-                                    </h2>
+                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2"><Icons.Plane /> 航班資訊</h2>
                                     {flights.map((f, i) => <FlightCard key={i} data={f} />)}
                                 </section>
-
                                 <section>
-                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                        <Home size={18} className="text-orange-500" /> 住宿資訊
-                                    </h2>
+                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2"><Icons.Home /> 住宿資訊</h2>
                                     {accommodations.map((h, i) => (
                                         <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-3">
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <div className="font-bold text-gray-800">{h.name}</div>
-                                                    <div className="text-sm text-gray-500 flex items-center gap-1 mt-1">
-                                                        <MapPin size={12} /> {h.location}
-                                                    </div>
+                                                    <div className="text-sm text-gray-500 flex items-center gap-1 mt-1"><Icons.MapPin /> {h.location}</div>
                                                 </div>
-                                                <div className="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded">
-                                                    {h.date}
-                                                </div>
+                                                <div className="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded">{h.date}</div>
                                             </div>
                                             {h.note && <div className="mt-2 text-xs text-gray-400 border-t border-gray-100 pt-2">{h.note}</div>}
                                         </div>
                                     ))}
                                 </section>
-
                                 <section>
-                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                                        <Ticket size={18} className="text-red-500" /> 重要任務
-                                    </h2>
+                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2"><Icons.Ticket /> 重要任務</h2>
                                     <div className="bg-red-50 p-4 rounded-xl border border-red-100">
                                         <ul className="space-y-3 text-sm text-red-800">
-                                            <li className="flex items-center gap-2">
-                                                <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span>2/10 搶吉卜力門票</span>
-                                            </li>
-                                            <li className="flex items-center gap-2">
-                                                <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span>預約新幹線 Toki 321</span>
-                                            </li>
-                                            <li className="flex items-center gap-2">
-                                                <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span>預約越後湯澤接駁車</span>
-                                            </li>
-                                            <li className="flex items-center gap-2">
-                                                <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span>確認滑雪保險</span>
-                                            </li>
+                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>2/10 搶吉卜力門票</span></li>
+                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>預約新幹線 Toki 321</span></li>
+                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>預約越後湯澤接駁車</span></li>
+                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>確認滑雪保險</span></li>
                                         </ul>
                                     </div>
                                 </section>
@@ -374,22 +258,13 @@
                         )}
                     </div>
 
-                    {/* Bottom Nav */}
                     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-3 flex justify-around items-center z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-                        <button 
-                            onClick={() => setActiveTab('schedule')}
-                            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'schedule' ? 'text-blue-600' : 'text-gray-400'}`}
-                        >
-                            <Calendar size={24} strokeWidth={activeTab === 'schedule' ? 2.5 : 2} />
-                            <span className="text-[10px] font-medium">行程</span>
+                        <button onClick={() => setActiveTab('schedule')} className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'schedule' ? 'text-blue-600' : 'text-gray-400'}`}>
+                            <Icons.Calendar /> <span className="text-[10px] font-medium">行程</span>
                         </button>
                         <div className="w-px h-8 bg-gray-100"></div>
-                        <button 
-                            onClick={() => setActiveTab('info')}
-                            className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'info' ? 'text-blue-600' : 'text-gray-400'}`}
-                        >
-                            <Ticket size={24} strokeWidth={activeTab === 'info' ? 2.5 : 2} />
-                            <span className="text-[10px] font-medium">資訊</span>
+                        <button onClick={() => setActiveTab('info')} className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'info' ? 'text-blue-600' : 'text-gray-400'}`}>
+                            <Icons.Ticket /> <span className="text-[10px] font-medium">資訊</span>
                         </button>
                     </div>
                 </div>
@@ -401,4 +276,5 @@
     </script>
 </body>
 </html>
+
 
