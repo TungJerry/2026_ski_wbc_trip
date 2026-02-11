@@ -75,15 +75,16 @@
         ];
         const itineraryData = [
             { date: "2/27", day: "五", title: "抵達東京", icon: Icons.Plane, events: [{ time: "16:50", title: "Cody組 抵達成田", desc: "CX450 -> 上野 Check-in", tag: "Cody/子瑜" }, { time: "19:20", title: "Jerry組 抵達成田", desc: "BR196 -> Skyliner (20:10) -> 上野 (21:00)", tag: "Jerry/小芳" }, { time: "22:00", title: "晚餐：鴨to蔥", desc: "上野御徒町名店", icon: Icons.Utensils }] },
-            { date: "2/28", day: "六", title: "移動日 (提早一班車)", icon: Icons.Train, events: [{ time: "10:00", title: "退房 & 寄放行李", desc: "稍微提早退房，準備採買" }, { time: "10:15", title: "吉池 (Yoshiike) 採買", desc: "買草莓、零食帶去雪場", icon: Icons.ShoppingBag }, { time: "11:00", title: "午餐：Negishi 牛舌", desc: "開店即入座，預留時間搭車", icon: Icons.Utensils }, { time: "12:46", title: "新幹線 Toki 321", desc: "上野 -> 越後湯澤 (13:56 抵達)\n*提早一班車", highlight: true }, { time: "14:15", title: "搭乘飯店接駁車", desc: "越後湯澤東口 (⚠️ 需預約)", isWarning: true }, { time: "15:00", title: "苗場 Check-in", desc: "王子飯店 (提早抵達休息)" }, { time: "15:30", title: "租賃雪具", desc: "飯店內 Rental Shop 試穿裝備\n(雪鞋/雪板/安全帽)", icon: Icons.Ticket }, { time: "16:30", title: "夜滑 (Nighter)", desc: "裝備確認完畢，熱身開滑！", icon: Icons.Snowflake }] },
+            
+            // --- 2/28 更新: 移除「提早一班車」文字說明 ---
+            { date: "2/28", day: "六", title: "移動日", icon: Icons.Train, events: [{ time: "10:00", title: "退房 & 寄放行李", desc: "稍微提早退房，準備採買" }, { time: "10:15", title: "吉池 (Yoshiike) 採買", desc: "買草莓、零食帶去雪場", icon: Icons.ShoppingBag }, { time: "11:00", title: "午餐：Negishi 牛舌", desc: "開店即入座，預留時間搭車", icon: Icons.Utensils }, { time: "12:46", title: "新幹線 Toki 321", desc: "上野 -> 越後湯澤 (13:56 抵達)", highlight: true }, { time: "14:15", title: "搭乘飯店接駁車", desc: "越後湯澤東口 (⚠️ 需預約)", isWarning: true }, { time: "15:00", title: "苗場 Check-in", desc: "王子飯店 (提早抵達休息)" }, { time: "15:30", title: "租賃雪具", desc: "飯店內 Rental Shop 試穿裝備\n(雪鞋/雪板/安全帽)", icon: Icons.Ticket }, { time: "16:30", title: "夜滑 (Nighter)", desc: "裝備確認完畢，熱身開滑！", icon: Icons.Snowflake }] },
+            
             { date: "3/1", day: "日", title: "滑雪日 Day 1", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "享受粉雪吧！", icon: Icons.Snowflake }] },
             { date: "3/2", day: "一", title: "滑雪日 Day 2", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "繼續練習，挑戰新雪道", icon: Icons.Snowflake }] },
             { date: "3/3", day: "二", title: "滑雪日 Day 3", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "最後一天滑好滑滿", icon: Icons.Snowflake }] },
             
-            // --- 3/4 (三) 更新: 澀谷逛街 ---
             { date: "3/4", day: "三", title: "返回東京 & 澀谷", icon: Icons.ShoppingBag, events: [{ time: "早上", title: "退房 -> 移動回東京", desc: "越後湯澤 -> 上野/東京" }, { time: "下午", title: "澀谷 Shibuya", desc: "逛街兼吃飯 (餐廳待定)\nSHIBUYA SKY / 宮下公園", icon: Icons.ShoppingBag }, { time: "16:00", title: "龜戶 Airbnb Check-in", desc: "放置行李、休息", icon: Icons.Home }] },
             
-            // --- 3/5 (四) 更新: 咖啡廳/球賽/ShakeShack/居酒屋 ---
             { date: "3/5", day: "四", title: "WBC 球賽 & teamLab", icon: Icons.Trophy, events: [
                 { time: "早上", title: "日式咖啡廳", desc: "找間喫茶店吃早餐/早午餐", icon: Icons.Coffee },
                 { time: "11:00", title: "WBC: vs 澳洲", desc: "⚾ 全員6人進場 (東京巨蛋)", highlight: true }, 
@@ -94,7 +95,6 @@
             
             { date: "3/6", day: "五", title: "淺草觀光 & 分流", icon: Icons.MapPin, events: [{ time: "10:45", title: "淺草今半 (排隊)", desc: "頂級壽喜燒", icon: Icons.Utensils }, { time: "下午", title: "淺草寺 / 雷門 / 晴空塔", desc: "觀光客行程" }, { time: "17:00", title: "分流行動", isSplit: true, groupA: { title: "Cody, 子瑜", desc: "⚾ 東京巨蛋 (18:00 vs 日本)" }, groupB: { title: "Jerry, 小芳, EJ, Wei", desc: "🛍️ 晴空塔/錦糸町逛街" } }] },
             
-            // --- 3/7 (六) 更新: 御茶之水雪具 & 燒肉 ---
             { date: "3/7", day: "六", title: "雪具採買 & WBC", icon: Icons.ShoppingBag, events: [
                 { time: "11:00", title: "WBC: vs 捷克", desc: "⚾ 觀眾: EJ, Wei", tag: "EJ/Wei" }, 
                 { time: "全日", title: "御茶之水 (Ochanomizu)", desc: "雪具店巡禮 (Victoria / FUSO)\n慢慢逛、慢慢買", tag: "其他4人", icon: Icons.ShoppingBag }, 
@@ -209,7 +209,7 @@
 
         const App = () => {
             const [activeTab, setActiveTab] = useState('schedule');
-            const [openDay, setOpenDay] = useState(6); // 預設展開 3/5 (Day 6)
+            const [openDay, setOpenDay] = useState(1); // 預設展開 2/28 (Day 1) 確認修改
 
             return (
                 <div className="max-w-md mx-auto min-h-screen bg-gray-50 pb-24 font-sans text-gray-900">
