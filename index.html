@@ -59,7 +59,8 @@
             AlertCircle: () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>,
             ShoppingBag: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>,
             Trophy: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>,
-            Coffee: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="1" y2="4"/><line x1="10" x2="10" y1="1" y2="4"/><line x1="14" x2="14" y1="1" y2="4"/></svg>
+            Coffee: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="1" y2="4"/><line x1="10" x2="10" y1="1" y2="4"/><line x1="14" x2="14" y1="1" y2="4"/></svg>,
+            CheckSquare: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
         };
 
         // --- Data ---
@@ -76,14 +77,19 @@
         const itineraryData = [
             { date: "2/27", day: "五", title: "抵達東京", icon: Icons.Plane, events: [{ time: "16:50", title: "Cody組 抵達成田", desc: "CX450 -> 上野 Check-in", tag: "Cody/子瑜" }, { time: "19:20", title: "Jerry組 抵達成田", desc: "BR196 -> Skyliner (20:10) -> 上野 (21:00)", tag: "Jerry/小芳" }, { time: "22:00", title: "晚餐：鴨to蔥", desc: "上野御徒町名店", icon: Icons.Utensils }] },
             
-            // --- 2/28 更新: 移除「提早一班車」文字說明 ---
+            // --- 2/28 ---
             { date: "2/28", day: "六", title: "移動日", icon: Icons.Train, events: [{ time: "10:00", title: "退房 & 寄放行李", desc: "稍微提早退房，準備採買" }, { time: "10:15", title: "吉池 (Yoshiike) 採買", desc: "買草莓、零食帶去雪場", icon: Icons.ShoppingBag }, { time: "11:00", title: "午餐：Negishi 牛舌", desc: "開店即入座，預留時間搭車", icon: Icons.Utensils }, { time: "12:46", title: "新幹線 Toki 321", desc: "上野 -> 越後湯澤 (13:56 抵達)", highlight: true }, { time: "14:15", title: "搭乘飯店接駁車", desc: "越後湯澤東口 (⚠️ 需預約)", isWarning: true }, { time: "15:00", title: "苗場 Check-in", desc: "王子飯店 (提早抵達休息)" }, { time: "15:30", title: "租賃雪具", desc: "飯店內 Rental Shop 試穿裝備\n(雪鞋/雪板/安全帽)", icon: Icons.Ticket }, { time: "16:30", title: "夜滑 (Nighter)", desc: "裝備確認完畢，熱身開滑！", icon: Icons.Snowflake }] },
             
             { date: "3/1", day: "日", title: "滑雪日 Day 1", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "享受粉雪吧！", icon: Icons.Snowflake }] },
             { date: "3/2", day: "一", title: "滑雪日 Day 2", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "繼續練習，挑戰新雪道", icon: Icons.Snowflake }] },
             { date: "3/3", day: "二", title: "滑雪日 Day 3", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "最後一天滑好滑滿", icon: Icons.Snowflake }] },
             
-            { date: "3/4", day: "三", title: "返回東京 & 澀谷", icon: Icons.ShoppingBag, events: [{ time: "早上", title: "退房 -> 移動回東京", desc: "越後湯澤 -> 上野/東京" }, { time: "下午", title: "澀谷 Shibuya", desc: "逛街兼吃飯 (餐廳待定)\nSHIBUYA SKY / 宮下公園", icon: Icons.ShoppingBag }, { time: "16:00", title: "龜戶 Airbnb Check-in", desc: "放置行李、休息", icon: Icons.Home }] },
+            // --- 3/4 (三) 更新: 先 Check-in 再去澀谷 ---
+            { date: "3/4", day: "三", title: "返回東京 & 澀谷", icon: Icons.ShoppingBag, events: [
+                { time: "早上", title: "退房 -> 移動回東京", desc: "越後湯澤 -> 上野/東京" }, 
+                { time: "16:00", title: "龜戶 Airbnb Check-in", desc: "先回民宿放行李、休息", icon: Icons.Home },
+                { time: "傍晚", title: "澀谷 Shibuya", desc: "逛街兼吃飯 (行程待定)", icon: Icons.ShoppingBag }
+            ] },
             
             { date: "3/5", day: "四", title: "WBC 球賽 & teamLab", icon: Icons.Trophy, events: [
                 { time: "早上", title: "日式咖啡廳", desc: "找間喫茶店吃早餐/早午餐", icon: Icons.Coffee },
@@ -98,7 +104,7 @@
             { date: "3/7", day: "六", title: "雪具採買 & WBC", icon: Icons.ShoppingBag, events: [
                 { time: "11:00", title: "WBC: vs 捷克", desc: "⚾ 觀眾: EJ, Wei", tag: "EJ/Wei" }, 
                 { time: "全日", title: "御茶之水 (Ochanomizu)", desc: "雪具店巡禮 (Victoria / FUSO)\n慢慢逛、慢慢買", tag: "其他4人", icon: Icons.ShoppingBag }, 
-                { time: "晚上", title: "全員會合 & 燒肉", desc: "地點：待定\n大口吃肉慶功宴！", icon: Icons.Utensils }
+                { time: "晚上", title: "全員會合吃大餐", desc: "鎖定燒肉！(地點待定)\n大口吃肉時間", icon: Icons.Utensils }
             ] },
             
             { date: "3/8", day: "日", title: "回程", icon: Icons.Plane, events: [{ time: "07:30", title: "Jerry組 出發", desc: "前往羽田機場 (10:50 BR189)", tag: "Jerry/小芳" }, { time: "13:00", title: "Cody組 出發", desc: "前往成田機場 (15:20 CX451)", tag: "Cody/子瑜" }] }
@@ -209,7 +215,7 @@
 
         const App = () => {
             const [activeTab, setActiveTab] = useState('schedule');
-            const [openDay, setOpenDay] = useState(1); // 預設展開 2/28 (Day 1) 確認修改
+            const [openDay, setOpenDay] = useState(null); // 預設收合全部，點擊展開
 
             return (
                 <div className="max-w-md mx-auto min-h-screen bg-gray-50 pb-24 font-sans text-gray-900">
@@ -267,13 +273,32 @@
                                     ))}
                                 </section>
                                 <section>
-                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2"><Icons.Ticket /> 重要任務</h2>
+                                    <h2 className="font-bold text-gray-800 mb-3 flex items-center gap-2"><Icons.CheckSquare /> 決策與待辦</h2>
                                     <div className="bg-red-50 p-4 rounded-xl border border-red-100">
-                                        <ul className="space-y-3 text-sm text-red-800">
-                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>2/10 搶吉卜力門票 (已截止)</span></li>
-                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>預約新幹線 Toki 321</span></li>
-                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>預約越後湯澤接駁車</span></li>
-                                            <li className="flex items-center gap-2"><input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> <span>確認滑雪保險</span></li>
+                                        <ul className="space-y-4 text-sm text-red-800">
+                                            {/* Booking Tasks */}
+                                            <li className="flex items-start gap-2 border-b border-red-100 pb-2">
+                                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
+                                                <span><strong>預訂交通:</strong><br/>1. 新幹線 Toki 321 (東京-越後湯澤)<br/>2. 越後湯澤接駁車<br/>3. Skyliner 車票 (成田機場)</span>
+                                            </li>
+                                            
+                                            {/* Decision Tasks */}
+                                            <li className="flex items-start gap-2">
+                                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
+                                                <span><strong>3/4 澀谷決策:</strong><br/>- 晚餐吃什麼?<br/>- WBC專賣店行程?</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
+                                                <span><strong>3/5 美食決策:</strong><br/>- 早午餐選哪家?<br/>- 晚餐吃什麼? (銀座/秋葉原?)</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
+                                                <span><strong>3/6 行程決策:</strong><br/>- 下午去晴空塔WBC店嗎?</span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
+                                                <span><strong>3/7 晚餐決策:</strong><br/>- 早上吃什麼?<br/>- 燒肉大餐訂哪間? (敘敘苑/六歌仙/其他?)</span>
+                                            </li>
                                         </ul>
                                     </div>
                                 </section>
