@@ -60,7 +60,8 @@
             ShoppingBag: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>,
             Trophy: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>,
             Coffee: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="1" y2="4"/><line x1="10" x2="10" y1="1" y2="4"/><line x1="14" x2="14" y1="1" y2="4"/></svg>,
-            CheckSquare: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            CheckSquare: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
+            Mountain: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
         };
 
         // --- Data ---
@@ -71,43 +72,96 @@
         ];
         const accommodations = [
             { date: "2/27 (1晚)", name: "上野東金屋飯店", location: "上野", note: "方便隔天搭新幹線" },
-            { date: "2/28-3/4 (4晚)", name: "苗場王子飯店", location: "苗場", note: "滑雪直達 / 夜滑" },
+            { date: "2/28-3/4 (4晚)", name: "苗場王子飯店 6號館", location: "苗場", note: "滑雪直達 / 夜滑" },
             { date: "3/4-3/8 (4晚)", name: "龜戶 Airbnb", location: "龜戶", note: "16:00 In / 10:00 Out" }
         ];
         const itineraryData = [
-            { date: "2/27", day: "五", title: "抵達東京", icon: Icons.Plane, events: [{ time: "16:50", title: "Cody組 抵達成田", desc: "CX450 -> 上野 Check-in", tag: "Cody/子瑜" }, { time: "19:20", title: "Jerry組 抵達成田", desc: "BR196 -> Skyliner (20:10) -> 上野 (21:00)", tag: "Jerry/小芳" }, { time: "22:00", title: "晚餐：鴨to蔥", desc: "上野御徒町名店", icon: Icons.Utensils }] },
+            { date: "2/27", day: "五", title: "抵達東京：首場美食", icon: Icons.Plane, events: [
+                { time: "16:50", title: "Cody組 抵達成田", desc: "CX450 降落", tag: "Cody/子瑜" }, 
+                { time: "18:42", title: "搭乘 Skyliner 50號", desc: "19:23 抵達上野", tag: "Cody/子瑜", icon: Icons.Train }, 
+                { time: "19:20", title: "Jerry組 抵達成田", desc: "BR196 降落 ➔ 20:10 Skyliner", tag: "Jerry/小芳" }, 
+                { time: "晚餐", title: "晚餐分流", isSplit: true, 
+                  groupA: { title: "Cody, 子瑜", desc: "🥩 牛兵衛 草庵 (池袋西口店) - 20:30" }, 
+                  groupB: { title: "Jerry, 小芳", desc: "🍜 鴨to蔥 (上野御徒町) - 預計抵達上野後吃" } 
+                }
+            ] },
             
             // --- 2/28 ---
-            { date: "2/28", day: "六", title: "移動日", icon: Icons.Train, events: [{ time: "10:00", title: "退房 & 寄放行李", desc: "稍微提早退房，準備採買" }, { time: "10:15", title: "吉池 (Yoshiike) 採買", desc: "買草莓、零食帶去雪場", icon: Icons.ShoppingBag }, { time: "11:00", title: "午餐：Negishi 牛舌", desc: "開店即入座，預留時間搭車", icon: Icons.Utensils }, { time: "12:46", title: "新幹線 Toki 321", desc: "上野 -> 越後湯澤 (13:56 抵達)", highlight: true }, { time: "14:15", title: "搭乘飯店接駁車", desc: "越後湯澤東口 (⚠️ 需預約)", isWarning: true }, { time: "15:00", title: "苗場 Check-in", desc: "王子飯店 (提早抵達休息)" }, { time: "15:30", title: "租賃雪具", desc: "飯店內 Rental Shop 試穿裝備\n(雪鞋/雪板/安全帽)", icon: Icons.Ticket }, { time: "16:30", title: "夜滑 (Nighter)", desc: "裝備確認完畢，熱身開滑！", icon: Icons.Snowflake }] },
-            
-            { date: "3/1", day: "日", title: "滑雪日 Day 1", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "享受粉雪吧！", icon: Icons.Snowflake }] },
-            { date: "3/2", day: "一", title: "滑雪日 Day 2", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "繼續練習，挑戰新雪道", icon: Icons.Snowflake }] },
-            { date: "3/3", day: "二", title: "滑雪日 Day 3", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "最後一天滑好滑滿", icon: Icons.Snowflake }] },
-            
-            // --- 3/4 (三) 更新: 先 Check-in 再去澀谷 ---
-            { date: "3/4", day: "三", title: "返回東京 & 澀谷", icon: Icons.ShoppingBag, events: [
-                { time: "早上", title: "退房 -> 移動回東京", desc: "越後湯澤 -> 上野/東京" }, 
-                { time: "16:00", title: "龜戶 Airbnb Check-in", desc: "先回民宿放行李、休息", icon: Icons.Home },
-                { time: "傍晚", title: "澀谷 Shibuya", desc: "逛街兼吃飯 (行程待定)", icon: Icons.ShoppingBag }
+            { date: "2/28", day: "六", title: "出發苗場：雪場進駐", icon: Icons.Train, events: [
+                { time: "10:40", title: "吉池 (Yoshiike) 採買", desc: "採買雪場糧食、物資", icon: Icons.ShoppingBag }, 
+                { time: "11:30", title: "午餐：Negishi 牛舌", desc: "上野站前", icon: Icons.Utensils }, 
+                { time: "13:46", title: "新幹線 Toki 323", desc: "上野 ➔ 越後湯澤 (14:56 抵達)", highlight: true }, 
+                { time: "15:10", title: "搭乘飯店接駁車", desc: "越後湯澤東口 ➔ 16:00 抵達苗場", isWarning: true }, 
+                { time: "晚上", title: "入住 & 夜滑", desc: "苗場 6 號館 Check-in\n租借設備、夜滑熱身", icon: Icons.Snowflake }
             ] },
             
-            { date: "3/5", day: "四", title: "WBC 球賽 & teamLab", icon: Icons.Trophy, events: [
-                { time: "早上", title: "日式咖啡廳", desc: "找間喫茶店吃早餐/早午餐", icon: Icons.Coffee },
-                { time: "11:00", title: "WBC: vs 澳洲", desc: "⚾ 全員6人進場 (東京巨蛋)", highlight: true }, 
-                { time: "賽後", title: "午餐/下午茶", desc: "餓的話吃 Shake Shack (球場旁) 或其他小吃", icon: Icons.Utensils },
-                { time: "15:30", title: "teamLab Planets", desc: "預約 15:30 (官方說明：晚到可入場)\n預計逛到 19:00~20:00", icon: Icons.MapPin }, 
-                { time: "晚餐", title: "深夜居酒屋", desc: "找開比較晚的店 (地點待定)", icon: Icons.Utensils }
+            { date: "3/1", day: "日", title: "苗場滑雪日 Day 1", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "享受苗場粉雪！", icon: Icons.Snowflake }] },
+            { date: "3/2", day: "一", title: "苗場滑雪日 Day 2", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "繼續練習，挑戰新雪道", icon: Icons.Snowflake }] },
+            
+            // --- 3/3 更新: 神樂遠征 ---
+            { date: "3/3", day: "二", title: "神樂 (Kagura) 遠征", icon: Icons.Mountain, events: [
+                { time: "09:00", title: "搭乘龍纜 (Dragondola)", desc: "前往神樂滑雪場 (營運開始時間)", highlight: true, icon: Icons.Train }, 
+                { time: "全日", title: "神樂區域滑雪", desc: "探索更大、雪質更好的神樂雪場", icon: Icons.Snowflake },
+                { time: "14:30", title: "準備回程", desc: "⚠️ 下午雪質變軟滑行變慢\n最晚此時開始往田代區域移動！", isWarning: true },
+                { time: "15:30", title: "龍纜最後搭乘時間", desc: "錯過就回不來了，務必準時抵達纜車站", highlight: true, icon: Icons.AlertCircle }
             ] },
             
-            { date: "3/6", day: "五", title: "淺草觀光 & 分流", icon: Icons.MapPin, events: [{ time: "10:45", title: "淺草今半 (排隊)", desc: "頂級壽喜燒", icon: Icons.Utensils }, { time: "下午", title: "淺草寺 / 雷門 / 晴空塔", desc: "觀光客行程" }, { time: "17:00", title: "分流行動", isSplit: true, groupA: { title: "Cody, 子瑜", desc: "⚾ 東京巨蛋 (18:00 vs 日本)" }, groupB: { title: "Jerry, 小芳, EJ, Wei", desc: "🛍️ 晴空塔/錦糸町逛街" } }] },
-            
-            { date: "3/7", day: "六", title: "雪具採買 & WBC", icon: Icons.ShoppingBag, events: [
-                { time: "11:00", title: "WBC: vs 捷克", desc: "⚾ 觀眾: EJ, Wei", tag: "EJ/Wei" }, 
-                { time: "全日", title: "御茶之水 (Ochanomizu)", desc: "雪具店巡禮 (Victoria / FUSO)\n慢慢逛、慢慢買", tag: "其他4人", icon: Icons.ShoppingBag }, 
-                { time: "晚上", title: "全員會合吃大餐", desc: "鎖定燒肉！(地點待定)\n大口吃肉時間", icon: Icons.Utensils }
+            // --- 3/4 更新: 澀谷與秋葉原行李寄放 ---
+            { date: "3/4", day: "三", title: "澀谷戰衣採買", icon: Icons.ShoppingBag, events: [
+                { time: "10:15", title: "搭乘飯店接駁車下山", desc: "苗場 ➔ 越後湯澤" }, 
+                { time: "12:11", title: "新幹線 Toki 318", desc: "越後湯澤 ➔ 上野 (13:24 抵達)", highlight: true }, 
+                { time: "13:45", title: "秋葉原站寄放行李", desc: "避開澀谷大型行李櫃位不足的問題", icon: Icons.MapPin },
+                { time: "15:00", title: "澀谷 WBC 專賣店", desc: "採買球衣與周邊！", icon: Icons.ShoppingBag },
+                { time: "晚上", title: "澀谷地區晚餐", desc: "餐廳待定", icon: Icons.Utensils },
+                { time: "20:30", title: "領行李 ➔ 民宿", desc: "回秋葉原領行李 ➔ 抵達龜戶 Airbnb", icon: Icons.Home }
             ] },
             
-            { date: "3/8", day: "日", title: "回程", icon: Icons.Plane, events: [{ time: "07:30", title: "Jerry組 出發", desc: "前往羽田機場 (10:50 BR189)", tag: "Jerry/小芳" }, { time: "13:00", title: "Cody組 出發", desc: "前往成田機場 (15:20 CX451)", tag: "Cody/子瑜" }] }
+            // --- 3/5 更新: teamLab Borderless ---
+            { date: "3/5", day: "四", title: "全員應援 × teamLab", icon: Icons.Trophy, events: [
+                { time: "08:00", title: "早餐：猿田彥咖啡", desc: "Atre 龜戶店", icon: Icons.Coffee },
+                { time: "10:00", title: "抵達東京巨蛋", desc: "準備進場買周邊、拍照" },
+                { time: "11:00", title: "WBC: vs 澳洲", desc: "⚾ 全員6人進場應援！", highlight: true }, 
+                { time: "16:00", title: "teamLab Borderless", desc: "📍 注意：是「麻布台之丘」的 Borderless！\n不是豐洲的 Planets 喔！", isWarning: true, icon: Icons.MapPin }, 
+                { 
+                    time: "20:00", 
+                    title: "銀座うなぎノ宮宇 (已訂位)", 
+                    desc: "吃鰻魚飯補體力！\n順便買資生堂布丁 🍮 當甜點", 
+                    links: [
+                        { name: "鰻魚飯", url: "https://maps.app.goo.gl/ZtTxDgs9rWLfUjcS9?g_st=il" },
+                        { name: "資生堂 Parlour", url: "https://maps.app.goo.gl/f7BrNCi6nLFFUyAf7?g_st=ic" }
+                    ], 
+                    icon: Icons.Utensils 
+                }
+            ] },
+            
+            // --- 3/6 更新: 東武橋河津櫻 ---
+            { date: "3/6", day: "五", title: "淺草櫻花 & 台日大戰", icon: Icons.MapPin, events: [
+                { time: "10:45", title: "午餐：淺草今半", desc: "壽喜燒名店", icon: Icons.Utensils }, 
+                { time: "下午", title: "東武橋 ➔ 晴空塔", desc: "先去東武橋拍「河津櫻」\n再去晴空塔逛街", icon: Icons.MapPin }, 
+                { time: "17:00", title: "分流行動", isSplit: true, 
+                  groupA: { title: "Cody, 子瑜", desc: "⚾ 18:00 東京巨蛋 (vs 日本)" }, 
+                  groupB: { title: "Jerry, 小芳, EJ, Wei", desc: "🛍️ 晴空塔/錦糸町逛街、晚餐" } 
+                }
+            ] },
+            
+            // --- 3/7 更新: 早午餐名單 ---
+            { date: "3/7", day: "六", title: "雪具巡禮 ➔ 最終大餐", icon: Icons.ShoppingBag, events: [
+                { time: "08:00", title: "早餐：珈琲道場 侍", desc: "龜戶店 (復古咖啡廳)", icon: Icons.Coffee },
+                { time: "10:00", title: "分流行動", isSplit: true, 
+                  groupA: { title: "EJ, Wei", desc: "⚾ 11:00 東京巨蛋 (vs 捷克)" }, 
+                  groupB: { title: "其他 4 人", desc: "🏂 御茶之水 雪具街逛街採購" } 
+                },
+                { time: "12:30", title: "4 人組午餐：Bondy", desc: "神保町歐風咖哩名店", icon: Icons.Utensils },
+                { time: "下午", title: "行程待安排", desc: "逛完御茶之水後的行程" },
+                { time: "晚上", title: "全員會合吃大餐", desc: "鎖定燒肉！(地點待定)\n大口吃肉慶功", icon: Icons.Utensils }
+            ] },
+            
+            // --- 3/8 更新: Ueno Lunch ---
+            { date: "3/8", day: "日", title: "歸途", icon: Icons.Plane, events: [
+                { time: "07:30", title: "Jerry組 出發", desc: "前往羽田機場 (10:50 BR189)", tag: "Jerry/小芳" }, 
+                { time: "11:00", title: "Cody組 午餐", desc: "上野周邊吃飯", tag: "Cody/子瑜", icon: Icons.Utensils },
+                { time: "13:00", title: "Cody組 出發", desc: "搭乘 Skyliner 前往成田 (15:20 CX451)", tag: "Cody/子瑜" }
+            ] }
         ];
 
         // --- Components ---
@@ -184,6 +238,18 @@
                                         <h4 className="font-bold text-gray-800 text-lg leading-tight">{event.title}</h4>
                                         {EventIcon && <span className="text-gray-400"><EventIcon /></span>}
                                     </div>
+                                    
+                                    {/* 渲染多個連結 */}
+                                    {event.links && (
+                                        <div className="mb-2 flex flex-wrap gap-2">
+                                            {event.links.map((lnk, i) => (
+                                                <a key={i} href={lnk.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-md border border-blue-100 font-bold active:bg-blue-100 transition-colors">
+                                                    📍 {lnk.name}
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
+
                                     {event.isSplit ? (
                                         <div className="mt-3 grid grid-cols-1 gap-2">
                                             <div className="bg-red-50 p-3 rounded-lg border border-red-100">
@@ -215,14 +281,14 @@
 
         const App = () => {
             const [activeTab, setActiveTab] = useState('schedule');
-            const [openDay, setOpenDay] = useState(null); // 預設收合全部，點擊展開
+            const [openDay, setOpenDay] = useState(0); // 預設展開 2/27 第一天
 
             return (
                 <div className="max-w-md mx-auto min-h-screen bg-gray-50 pb-24 font-sans text-gray-900">
                     <div className="bg-white p-5 sticky top-0 z-10 shadow-sm border-b border-gray-100">
                         <div className="flex justify-between items-center mb-1">
                             <h1 className="text-xl font-bold text-gray-900 tracking-tight">東京 WBC + 滑雪之旅</h1>
-                            <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded">2026</span>
+                            <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded">V2</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-500">
                             <Icons.Users /> <span>{members.length} 人：{members.join(", ")}</span>
@@ -279,25 +345,25 @@
                                             {/* Booking Tasks */}
                                             <li className="flex items-start gap-2 border-b border-red-100 pb-2">
                                                 <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span><strong>預訂交通:</strong><br/>1. 新幹線 Toki 321 (東京-越後湯澤)<br/>2. 越後湯澤接駁車<br/>3. Skyliner 車票 (成田機場)</span>
+                                                <span><strong>出發前必做:</strong><br/>1. 填寫 VJW (Visit Japan Web)<br/>2. 買好 Skyliner 車票</span>
+                                            </li>
+                                            <li className="flex items-start gap-2 border-b border-red-100 pb-2">
+                                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
+                                                <span><strong>預訂交通:</strong><br/>1. 新幹線 Toki 323 (去程)<br/>2. 新幹線 Toki 318 (回程)<br/>3. 苗場接駁車 (2/28去, 3/4回)</span>
                                             </li>
                                             
                                             {/* Decision Tasks */}
                                             <li className="flex items-start gap-2">
                                                 <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span><strong>3/4 澀谷決策:</strong><br/>- 晚餐吃什麼?<br/>- WBC專賣店行程?</span>
+                                                <span><strong>3/4 澀谷決策:</strong><br/>晚餐吃什麼?</span>
                                             </li>
                                             <li className="flex items-start gap-2">
                                                 <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span><strong>3/5 美食決策:</strong><br/>- 早午餐選哪家?<br/>- 晚餐吃什麼? (銀座/秋葉原?)</span>
+                                                <span><strong>3/6 行程決策:</strong><br/>下午去晴空塔WBC店嗎?</span>
                                             </li>
                                             <li className="flex items-start gap-2">
                                                 <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span><strong>3/6 行程決策:</strong><br/>- 下午去晴空塔WBC店嗎?</span>
-                                            </li>
-                                            <li className="flex items-start gap-2">
-                                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span><strong>3/7 晚餐決策:</strong><br/>- 早上吃什麼?<br/>- 燒肉大餐訂哪間? (敘敘苑/六歌仙/其他?)</span>
+                                                <span><strong>3/7 行程與晚餐決策:</strong><br/>- 下午逛完御茶之水要幹嘛?<br/>- 燒肉大餐訂哪間? (敘敘苑/六歌仙?)</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -324,5 +390,4 @@
     </script>
 </body>
 </html>
-
 
