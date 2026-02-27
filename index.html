@@ -86,7 +86,6 @@
                 }
             ] },
             
-            // --- 2/28 ---
             { date: "2/28", day: "六", title: "出發苗場：雪場進駐", icon: Icons.Train, events: [
                 { time: "10:40", title: "吉池 (Yoshiike) 採買", desc: "採買雪場糧食、物資", icon: Icons.ShoppingBag }, 
                 { time: "11:30", title: "午餐：Negishi 牛舌", desc: "上野站前", icon: Icons.Utensils }, 
@@ -95,10 +94,14 @@
                 { time: "晚上", title: "入住 & 夜滑", desc: "苗場 6 號館 Check-in\n租借設備、夜滑熱身", icon: Icons.Snowflake }
             ] },
             
-            { date: "3/1", day: "日", title: "苗場滑雪日 Day 1", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "享受苗場粉雪！", icon: Icons.Snowflake }] },
+            // --- 3/1 更新: 加入教練課 ---
+            { date: "3/1", day: "日", title: "苗場滑雪日 Day 1", icon: Icons.Snowflake, events: [
+                { time: "09:30", title: "滑雪教練課集合", desc: "地點：苗場王子六號館出口集合", highlight: true, icon: Icons.Users },
+                { time: "全日", title: "全日滑雪", desc: "享受苗場粉雪！", icon: Icons.Snowflake }
+            ] },
+            
             { date: "3/2", day: "一", title: "苗場滑雪日 Day 2", icon: Icons.Snowflake, events: [{ time: "全日", title: "全日滑雪", desc: "繼續練習，挑戰新雪道", icon: Icons.Snowflake }] },
             
-            // --- 3/3 更新: 神樂遠征 ---
             { date: "3/3", day: "二", title: "神樂 (Kagura) 遠征", icon: Icons.Mountain, events: [
                 { time: "09:00", title: "搭乘龍纜 (Dragondola)", desc: "前往神樂滑雪場 (營運開始時間)", highlight: true, icon: Icons.Train }, 
                 { time: "全日", title: "神樂區域滑雪", desc: "探索更大、雪質更好的神樂雪場", icon: Icons.Snowflake },
@@ -106,7 +109,6 @@
                 { time: "15:30", title: "龍纜最後搭乘時間", desc: "錯過就回不來了，務必準時抵達纜車站", highlight: true, icon: Icons.AlertCircle }
             ] },
             
-            // --- 3/4 更新: 澀谷與秋葉原行李寄放 ---
             { date: "3/4", day: "三", title: "澀谷戰衣採買", icon: Icons.ShoppingBag, events: [
                 { time: "10:15", title: "搭乘飯店接駁車下山", desc: "苗場 ➔ 越後湯澤" }, 
                 { time: "12:11", title: "新幹線 Toki 318", desc: "越後湯澤 ➔ 上野 (13:24 抵達)", highlight: true }, 
@@ -116,7 +118,6 @@
                 { time: "20:30", title: "領行李 ➔ 民宿", desc: "回秋葉原領行李 ➔ 抵達龜戶 Airbnb", icon: Icons.Home }
             ] },
             
-            // --- 3/5 更新: teamLab Borderless ---
             { date: "3/5", day: "四", title: "全員應援 × teamLab", icon: Icons.Trophy, events: [
                 { time: "08:00", title: "早餐：猿田彥咖啡", desc: "Atre 龜戶店", icon: Icons.Coffee },
                 { time: "10:00", title: "抵達東京巨蛋", desc: "準備進場買周邊、拍照" },
@@ -134,7 +135,6 @@
                 }
             ] },
             
-            // --- 3/6 更新: 東武橋河津櫻 ---
             { date: "3/6", day: "五", title: "淺草櫻花 & 台日大戰", icon: Icons.MapPin, events: [
                 { time: "10:45", title: "午餐：淺草今半", desc: "壽喜燒名店", icon: Icons.Utensils }, 
                 { time: "下午", title: "東武橋 ➔ 晴空塔", desc: "先去東武橋拍「河津櫻」\n再去晴空塔逛街", icon: Icons.MapPin }, 
@@ -144,7 +144,7 @@
                 }
             ] },
             
-            // --- 3/7 更新: 早午餐名單 ---
+            // --- 3/7 更新: 加入 19:15 燒肉訂位與地圖 ---
             { date: "3/7", day: "六", title: "雪具巡禮 ➔ 最終大餐", icon: Icons.ShoppingBag, events: [
                 { time: "08:00", title: "早餐：珈琲道場 侍", desc: "龜戶店 (復古咖啡廳)", icon: Icons.Coffee },
                 { time: "10:00", title: "分流行動", isSplit: true, 
@@ -153,10 +153,15 @@
                 },
                 { time: "12:30", title: "4 人組午餐：Bondy", desc: "神保町歐風咖哩名店", icon: Icons.Utensils },
                 { time: "下午", title: "行程待安排", desc: "逛完御茶之水後的行程" },
-                { time: "晚上", title: "全員會合吃大餐", desc: "鎖定燒肉！(地點待定)\n大口吃肉慶功", icon: Icons.Utensils }
+                { 
+                    time: "19:15", 
+                    title: "燒肉大餐 (已訂位)", 
+                    desc: "預約 19:15\n大家辛苦啦，大口吃肉慶功！", 
+                    link: "https://maps.app.goo.gl/9vynRDseNg9mLXCx7?g_st=ic", 
+                    icon: Icons.Utensils 
+                }
             ] },
             
-            // --- 3/8 更新: Ueno Lunch ---
             { date: "3/8", day: "日", title: "歸途", icon: Icons.Plane, events: [
                 { time: "07:30", title: "Jerry組 出發", desc: "前往羽田機場 (10:50 BR189)", tag: "Jerry/小芳" }, 
                 { time: "11:00", title: "Cody組 午餐", desc: "上野周邊吃飯", tag: "Cody/子瑜", icon: Icons.Utensils },
@@ -239,6 +244,15 @@
                                         {EventIcon && <span className="text-gray-400"><EventIcon /></span>}
                                     </div>
                                     
+                                    {/* 渲染單一連結 (向下相容) */}
+                                    {event.link && (
+                                        <div className="mb-2">
+                                            <a href={event.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 px-2.5 py-1.5 rounded-md border border-blue-100 font-bold active:bg-blue-100 transition-colors">
+                                                📍 打開 Google Maps
+                                            </a>
+                                        </div>
+                                    )}
+
                                     {/* 渲染多個連結 */}
                                     {event.links && (
                                         <div className="mb-2 flex flex-wrap gap-2">
@@ -281,7 +295,7 @@
 
         const App = () => {
             const [activeTab, setActiveTab] = useState('schedule');
-            const [openDay, setOpenDay] = useState(0); // 預設展開 2/27 第一天
+            const [openDay, setOpenDay] = useState(2); // 預設展開 3/1 確認修改
 
             return (
                 <div className="max-w-md mx-auto min-h-screen bg-gray-50 pb-24 font-sans text-gray-900">
@@ -363,7 +377,7 @@
                                             </li>
                                             <li className="flex items-start gap-2">
                                                 <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500" /> 
-                                                <span><strong>3/7 行程與晚餐決策:</strong><br/>- 下午逛完御茶之水要幹嘛?<br/>- 燒肉大餐訂哪間? (敘敘苑/六歌仙?)</span>
+                                                <span><strong>3/7 行程決策:</strong><br/>下午逛完御茶之水要幹嘛?</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -390,4 +404,5 @@
     </script>
 </body>
 </html>
+
 
